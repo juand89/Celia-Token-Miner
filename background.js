@@ -6,10 +6,21 @@ const miner = async () => {
     {
         const setTimeoutHandler = ()=> {
             // chrome.runtime.sendMessage("send message from miner");
-            console.log("hello this is the miner")
+            const hours = Array.from(document.querySelectorAll("h4")).find(el => el.textContent === "Hour(s)")?.previousElementSibling?.textContent;
+            const minutes = Array.from(document.querySelectorAll("h4")).find(el => el.textContent === "Minute(s)")?.previousElementSibling?.textContent;
+            const seconds = Array.from(document.querySelectorAll("h4")).find(el => el.textContent === "Second(s)")?.previousElementSibling?.textContent;
+            console.log("finding the timer ", hours, minutes, seconds);
+            if (hours && minutes && seconds) {
+                const totalMilliseconds = (parseInt(hours) * 3600000 + parseInt(minutes) * 60000 + parseInt(seconds) * 1000) + 300000;
+                setTimeout(() => {
+                    document.location.reload();
+                }, totalMilliseconds)
+            } else {
+                // const mineBtn =
+            }
             resolve();
         }
-      setTimeout(setTimeoutHandler, 1000);
+      setTimeout(setTimeoutHandler, 2000);
     })
     miner();
 }
