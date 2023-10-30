@@ -16,11 +16,21 @@ const miner = async () => {
                     document.location.reload();
                 }, totalMilliseconds)
             } else {
-                // const mineBtn =
+              const mineBtn = document.getElementsByClassName("modal-groups")[0];
+              console.log("mineBtn", mineBtn)
+              if (!mineBtn) window.location.reload();
+              mineBtn.firstElementChild.click()
+              setTimeout(() => {
+                  document.getElementsByClassName("btn-special")[1].click()
+                  console.log("reload in 28800000 ms")
+                  setTimeout(() => {
+                    window.location.reload()
+                }, 28800000)
+              }, 4000)
             }
             resolve();
         }
-      setTimeout(setTimeoutHandler, 2000);
+      setTimeout(setTimeoutHandler, 3000);
     })
     miner();
 }
