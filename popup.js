@@ -14,24 +14,23 @@ function convertMillisecondsToTimer(milliseconds) {
   milliseconds %= 60000;
   const seconds = Math.floor(milliseconds / 1000);
   milliseconds %= 1000;
-
-  // Format the timer display
-  const timer = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-  return timer;
+  // Display the timer
+  document.getElementsByClassName("hours")[0].innerText = `${hours.toString().padStart(2, '0')}`;
+  document.getElementsByClassName("minutes")[0].innerText = `${minutes.toString().padStart(2, '0')}`;
+  document.getElementsByClassName("seconds")[0].innerText = `${seconds.toString().padStart(2, '0')}`;
 }
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   const openCelia = document.getElementById('openCelia');
-  var x;
   if (!isNaN(message)) {
     openCelia.style.display = 'none';
+    let remainingTime = message
+    convertMillisecondsToTimer(remainingTime);
     setInterval(() => {
-      // Output the result in an element with id="demo"
-      document.getElementsByClassName("timer-container")[0].innerText = "Remaining Time:" + convertMillisecondsToTimer(message);
+      remainingTime -= 1000;
+      convertMillisecondsToTimer(remainingTime);
     }, 1000);
 
   } else {
-    clearInterval(x);
     openCelia.style.display = 'block';
   }
 });
