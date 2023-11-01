@@ -41,7 +41,7 @@ const miner = async () => {
                 console.log("mineBtn", mineBtn)
                 if (!mineBtn) window.location.reload();
                 mineBtn.firstElementChild.click()
-                totalMilliseconds = 28800000;
+                totalMilliseconds = 28800000 + 300000;
                 setTimeout(() => {
                     document.getElementsByClassName("btn-special")[1].click()
                 }, 4000)
