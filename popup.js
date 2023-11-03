@@ -23,6 +23,13 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   const openCelia = document.getElementById('openCelia');
   if (!isNaN(message)) {
     openCelia.style.display = 'none';
+    chrome.action.setIcon({
+      path: {
+        "16": "/images/icon16.png",
+        "48": "/images/icon48.png",
+        "128": "/images/icon128.png"
+      }
+    });
     let remainingTime = message
     convertMillisecondsToTimer(remainingTime);
     setInterval(() => {
@@ -31,6 +38,13 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     }, 1000);
 
   } else {
+    chrome.action.setIcon({
+      path: {
+        "16": "/images/icon16-black.png",
+        "48": "/images/icon48-black.png",
+        "128": "/images/icon128-black.png"
+      }
+    });
     openCelia.style.display = 'block';
   }
 });
