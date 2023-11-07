@@ -74,15 +74,19 @@ chrome.alarms.clearAll();
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete' && String(tab.url).includes('celia.finance')) {
-        chrome.scripting.executeScript({
-            target: { tabId: tab.id },
-            function: miner
-        }, async (result) => {
-            if (result && result[0]?.result > 0) {
-                const delay = result[0].result;
-                await chrome.alarms.create('mine-celia-alarm', { delayInMinutes: delay })
-                getAlarm();
+        chrome.tabs.query({}, function(tabs) {
+            if (tabs.some(tab => tabId == tab.id)) {
+              chrome.scripting.executeScript({
+                  target: { tabId: tab.id },
+                  function: miner
+              }, async (result) => {
+                  if (result && result[0]?.result > 0) {
+                      const delay = result[0].result;
+                      await chrome.alarms.create('mine-celia-alarm', { delayInMinutes: delay })
+                      getAlarm();
+                  }
+              })
             }
-        })
+        });
     }
 })
