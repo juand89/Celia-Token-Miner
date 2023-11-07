@@ -67,7 +67,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                         if (celiaTab) {
                           chrome.tabs.reload(celiaTab.id)
                         } else {
-                          chrome.tabs.create({ url: "https://app.celia.finance/app/mine" });
+                          chrome.tabs.create({ url: "https://app.celia.finance/app/mine", active: false });
                         }
                       });
                 }, delay);
