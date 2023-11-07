@@ -58,7 +58,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             target: { tabId: tab.id },
             function: miner
         }, (result) => {
-            if (result.length > 0) {
+            if (result[0]?.result > 0) {
                 const delay = result[0].result;
                 clearTimeout(timerId);
                 remainingTime = new Date().getTime() + delay;
