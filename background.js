@@ -16,7 +16,12 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         getAlarm();
     }
 });
+const keepAlive = () => setInterval(() =>{
+    chrome.runtime.sendMessage(remainingTime);
+    console.log(chrome.runtime.getPlatformInfo)}, 180000);
 
+chrome.runtime.onStartup.addListener(keepAlive);
+keepAlive();
 chrome.alarms.onAlarm.addListener((alarm) => {
     chrome.tabs.query({}, (tabs) => {
         const celiaTab = tabs.find((tab) => tab.url.startsWith("https://app.celia.finance/app/mine"));
