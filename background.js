@@ -41,10 +41,9 @@ const miner = async () => {
                 console.log("mineBtn", mineBtn)
                 if (!mineBtn) window.location.reload();
                 mineBtn.firstElementChild.click()
+                totalMilliseconds = 28800000;
                 setTimeout(() => {
                     document.getElementsByClassName("btn-special")[1].click()
-                    console.log("reload in 28800000 ms")
-                    totalMilliseconds = 28800000;
                 }, 4000)
             }
             resolve(totalMilliseconds);
@@ -65,9 +64,10 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
                 timerId = setTimeout(() => {
                     chrome.tabs.query({}, (tabs) => {
                         const celiaTab = tabs.find((tab) => tab.url.startsWith("https://app.celia.finance/app/mine"));
-
-                        if (celiaTab) { chrome.tabs.reload(celiaTab.id) } else {
-                            chrome.tabs.create({ url: "https://app.celia.finance/app/mine" });
+                        if (celiaTab) {
+                          chrome.tabs.reload(celiaTab.id)
+                        } else {
+                          chrome.tabs.create({ url: "https://app.celia.finance/app/mine" });
                         }
                       });
                 }, delay);
