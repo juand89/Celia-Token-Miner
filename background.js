@@ -1,5 +1,12 @@
+let timerId = null;
+let remainingTime = null;
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    console.log(message);
+    if (message.action === 'userClick' && timerId !== null) {
+        // Do something when the user clicks the extension
+        const msToEnd = remainingTime - new Date().getTime();
+        console.log('User clicked the extension.', timerId, msToEnd);
+        chrome.runtime.sendMessage(msToEnd);
+    }
 });
 const miner = async () => {
     return new Promise((resolve) => {
@@ -29,9 +36,6 @@ const miner = async () => {
             console.log("finding the timer ", hours, minutes, seconds);
             if (hours && minutes && seconds) {
                 totalMilliseconds = (parseInt(hours) * 3600000 + parseInt(minutes) * 60000 + parseInt(seconds) * 1000) + 300000;
-                setTimeout(() => {
-                    document.location.reload();
-                }, totalMilliseconds)
             } else {
                 const mineBtn = document.getElementsByClassName("modal-groups")[0];
                 console.log("mineBtn", mineBtn)
@@ -40,17 +44,13 @@ const miner = async () => {
                 setTimeout(() => {
                     document.getElementsByClassName("btn-special")[1].click()
                     console.log("reload in 28800000 ms")
-                    totalMilliseconds = 28800000
-                    setTimeout(() => {
-                        window.location.reload()
-                    }, totalMilliseconds)
+                    totalMilliseconds = 28800000;
                 }, 4000)
             }
             resolve(totalMilliseconds);
         })
     });
 }
-
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete' && String(tab.url).includes('celia.finance')) {
         console.log(tab.url);
@@ -58,7 +58,21 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
             target: { tabId: tab.id },
             function: miner
         }, (result) => {
-            console.log(result[0], "result");
+            if (result.length > 0) {
+                const delay = result[0].result;
+                clearTimeout(timerId);
+                remainingTime = new Date().getTime() + delay;
+                timerId = setTimeout(() => {
+                    chrome.tabs.query({}, (tabs) => {
+                        const celiaTab = tabs.find((tab) => tab.url.startsWith("https://app.celia.finance/app/mine"));
+
+                        if (celiaTab) { chrome.tabs.reload(celiaTab.id) } else {
+                            chrome.tabs.create({ url: "https://app.celia.finance/app/mine" });
+                        }
+                      });
+                }, delay);
+                chrome.runtime.sendMessage(result[0].result);
+            }
         })
     }
 })
