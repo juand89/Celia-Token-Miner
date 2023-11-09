@@ -10,7 +10,7 @@ const miner = async () => {
             const minutes = Array.from(document.querySelectorAll("h4")).find(el => el.textContent === "Minute(s)")?.previousElementSibling?.textContent;
             const seconds = Array.from(document.querySelectorAll("h4")).find(el => el.textContent === "Second(s)")?.previousElementSibling?.textContent;
             if (hours && minutes && seconds) {
-                const totalMilliseconds = (parseInt(hours) * 3600000 + parseInt(minutes) * 60000 + parseInt(seconds) * 1000) + 300000;
+                const totalMilliseconds = (parseInt(hours) * 3600000 + parseInt(minutes) * 60000 + parseInt(seconds) * 1000) + 180000;
                 setTimeout(() => {
                     document.location.reload();
                 }, totalMilliseconds)
@@ -21,10 +21,9 @@ const miner = async () => {
               mineBtn.firstElementChild.click()
               setTimeout(() => {
                   document.getElementsByClassName("btn-special")[1].click()
-                  console.log("reload in 28800000 ms")
                   setTimeout(() => {
                     window.location.reload()
-                }, 28800000)
+                }, 4000)
               }, 4000)
             }
             resolve();
