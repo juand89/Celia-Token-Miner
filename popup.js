@@ -19,32 +19,3 @@ function convertMillisecondsToTimer(milliseconds) {
   document.getElementsByClassName("minutes")[0].innerText = `${minutes.toString().padStart(2, '0')}`;
   document.getElementsByClassName("seconds")[0].innerText = `${seconds.toString().padStart(2, '0')}`;
 }
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  const openCelia = document.getElementById('openCelia');
-  if (!isNaN(message)) {
-    openCelia.style.display = 'none';
-    chrome.action.setIcon({
-      path: {
-        "16": "/images/icon16.png",
-        "48": "/images/icon48.png",
-        "128": "/images/icon128.png"
-      }
-    });
-    let remainingTime = message
-    convertMillisecondsToTimer(remainingTime);
-    setInterval(() => {
-      remainingTime -= 1000;
-      convertMillisecondsToTimer(remainingTime);
-    }, 1000);
-
-  } else {
-    chrome.action.setIcon({
-      path: {
-        "16": "/images/icon16-black.png",
-        "48": "/images/icon48-black.png",
-        "128": "/images/icon128-black.png"
-      }
-    });
-    openCelia.style.display = 'block';
-  }
-});
