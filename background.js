@@ -32,12 +32,16 @@ const miner = async () => {
     })
     miner();
 }
+let scriptExecuted = false;
   chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       if (changeInfo.status === 'complete' && String(tab.url).includes('celia.finance')) {
-        console.log(tab.url );
-        chrome.scripting.executeScript({
-          target: { tabId: tab.id },
-          function: miner,
-        })
+        if (!scriptExecuted) {
+            chrome.scripting.executeScript({
+              target: { tabId: tab.id },
+              function: miner,
+            }, () => {
+                scriptExecuted = false;
+            })
+        }
       }
   })
