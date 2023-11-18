@@ -18,6 +18,7 @@ function convertMillisecondsToTimer(milliseconds) {
   document.getElementsByClassName("hours")[0].innerText = `${hours.toString().padStart(2, '0')}`;
   document.getElementsByClassName("minutes")[0].innerText = `${minutes.toString().padStart(2, '0')}`;
   document.getElementsByClassName("seconds")[0].innerText = `${seconds.toString().padStart(2, '0')}`;
+<<<<<<< HEAD
 }
 // chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 //   const openCelia = document.getElementById('openCelia');
@@ -48,3 +49,6 @@ function convertMillisecondsToTimer(milliseconds) {
 //     openCelia.style.display = 'block';
 //   }
 // });
+=======
+}
+>>>>>>> 99aa770813e5ce27dbb9118eb6ff012f9d9bffab
