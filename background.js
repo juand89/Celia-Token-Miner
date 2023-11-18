@@ -36,8 +36,8 @@ const miner = async () => {
         if (mineBtn) {
           console.log("mineBtn", mineBtn)
           mineBtn.firstElementChild.click()
-          waitForAnyElement(["btn-special"]).then(() => {
-            document.getElementsByClassName("btn-special")[0].click()
+          waitForAnyElement([".btn.btn-special.block"]).then((element) => {
+            element.click()
             setTimeout(() => {
               resolve();
               document.location.reload()
